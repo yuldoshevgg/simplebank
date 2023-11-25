@@ -14,6 +14,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Make script executable
+        run: |
+          chmod +x start.sh
+          chmod +x wait-for.sh
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4 
         with: 
