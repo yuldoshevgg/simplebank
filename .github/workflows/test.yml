@@ -1,4 +1,4 @@
-name: Run yml file
+name: Run unit tests
 
 on:
   push:
