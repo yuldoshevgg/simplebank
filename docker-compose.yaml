@@ -1,6 +1,5 @@
 version: '3.8'
 services:
-  platform: linux/arm64
   postgres:
     image: postgres:latest
     environment:
