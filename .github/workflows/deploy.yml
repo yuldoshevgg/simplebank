@@ -10,10 +10,6 @@ jobs:
     name: Build image
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        arch: [arm64/v8]
-
     steps:
       - name: Check out code
         uses: actions/checkout@v3
