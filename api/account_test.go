@@ -54,7 +54,7 @@ func TestGetAccountAPI(t *testing.T) {
 			name:      "OK",
 			accountID: account.ID,
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -71,7 +71,7 @@ func TestGetAccountAPI(t *testing.T) {
 			name:      "UnauthorizedUser",
 			accountID: account.ID,
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, "Unauthorized_user", time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, "Unauthorized_user", user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -101,7 +101,7 @@ func TestGetAccountAPI(t *testing.T) {
 			name:      "NotFound",
 			accountID: account.ID,
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -117,7 +117,7 @@ func TestGetAccountAPI(t *testing.T) {
 			name:      "InternalError",
 			accountID: account.ID,
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -133,7 +133,7 @@ func TestGetAccountAPI(t *testing.T) {
 			name:      "InvalidID",
 			accountID: 0,
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -187,7 +187,7 @@ func TestCreateAccountAPI(t *testing.T) {
 				"currency": account.Currency,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				arg := db.CreateAccountParams{
@@ -228,7 +228,7 @@ func TestCreateAccountAPI(t *testing.T) {
 				"currency": account.Currency,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -246,7 +246,7 @@ func TestCreateAccountAPI(t *testing.T) {
 				"currency": "invalid",
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -315,7 +315,7 @@ func TestListAccountsAPI(t *testing.T) {
 				pageSize: n,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				arg := db.GetAccountsParams{
@@ -358,7 +358,7 @@ func TestListAccountsAPI(t *testing.T) {
 				pageSize: n,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -377,7 +377,7 @@ func TestListAccountsAPI(t *testing.T) {
 				pageSize: n,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -395,7 +395,7 @@ func TestListAccountsAPI(t *testing.T) {
 				pageSize: 100000,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, user.Role, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
