@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"testing"
 	"time"
 
@@ -20,7 +19,7 @@ func createRandomTransfer(t *testing.T) Transfer {
 		Amount:        util.RandomAmount(),
 	}
 
-	tranfer, err := testQueries.CreateTransfer(context.Background(), arg)
+	tranfer, err := testStore.CreateTransfer(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, tranfer)
 
@@ -40,7 +39,7 @@ func TestCreateTransfer(t *testing.T) {
 
 func TestGetTransfer(t *testing.T) {
 	transfer1 := createRandomTransfer(t)
-	_, err := testQueries.GetTransfer(context.Background(), transfer1.ID)
+	_, err := testStore.GetTransfer(context.Background(), transfer1.ID)
 	require.NoError(t, err)
 }
 
@@ -52,7 +51,7 @@ func TestUpdateTransfer(t *testing.T) {
 		Amount: util.RandomAmount(),
 	}
 
-	transfer2, err := testQueries.UpdateTransfer(context.Background(), arg)
+	transfer2, err := testStore.UpdateTransfer(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, transfer2)
 
@@ -63,12 +62,12 @@ func TestUpdateTransfer(t *testing.T) {
 
 func TestDeleteTransfer(t *testing.T) {
 	transfer1 := createRandomTransfer(t)
-	err := testQueries.DeleteTransfer(context.Background(), transfer1.ID)
+	err := testStore.DeleteTransfer(context.Background(), transfer1.ID)
 	require.NoError(t, err)
 
-	transfer2, err := testQueries.GetTransfer(context.Background(), transfer1.ID)
+	transfer2, err := testStore.GetTransfer(context.Background(), transfer1.ID)
 	require.Error(t, err)
-	require.EqualError(t, err, sql.ErrNoRows.Error())
+	require.EqualError(t, err, ErrRecordNotFound.Error())
 	require.Empty(t, transfer2)
 }
 
@@ -82,7 +81,7 @@ func TestListTransfers(t *testing.T) {
 		Limit:  5,
 	}
 
-	transfers, err := testQueries.GetTransfers(context.Background(), args)
+	transfers, err := testStore.GetTransfers(context.Background(), args)
 	require.NoError(t, err)
 	require.Len(t, transfers, 5)
 

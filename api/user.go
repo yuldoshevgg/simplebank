@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/yuldoshevgg/simplebank/db/sqlc"
 	"github.com/yuldoshevgg/simplebank/util"
 )
@@ -132,7 +133,10 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		UserAgent:    ctx.Request.UserAgent(),
 		ClientIp:     ctx.ClientIP(),
 		IsBlocked:    false,
-		ExpiresAt:    refreshPayload.ExpiredAt,
+		ExpiresAt: pgtype.Timestamptz{
+			Time:  refreshPayload.ExpiredAt,
+			Valid: true,
+		},
 	})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
