@@ -21,6 +21,9 @@ migratedown:
 migratedown1:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
+
 sqlc: 
 	sqlc generate
 
@@ -29,7 +32,8 @@ server:
 
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/yuldoshevgg/simplebank/db/sqlc Store
-
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/yuldoshevgg/simplebank/worker TaskDistributor
+ 
 db_docs:
 	dbdocs build doc/db.dbml
 
@@ -55,4 +59,4 @@ proto:
     proto/*.proto
 		statik -src=./doc/swagger -dest=./doc
 
-.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc db_docs db_schema test server mock evans redis proto
+.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 new_migration sqlc db_docs db_schema test server mock evans redis proto
